@@ -1,0 +1,26 @@
+linters-settings:
+  goimports:
+    local-prefixes: github.com/stwile/go-essense-todo-web
+  govet:
+    check-shadowing: false
+  gocyclo:
+    min-complexity: 30
+  misspell:
+    locale: US
+
+linters:
+  disable-all: true
+  enable:
+    - goimports
+    - errcheck
+    - gocognit
+    - gocritic
+    - gocyclo
+    - gofmt
+    - govet
+    - misspell
+    - staticcheck
+    - whitespace
+    - unused
+    - ineffassign
+    - lll
