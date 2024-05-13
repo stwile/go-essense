@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  todo_app:
+    container_name: ${TODO_APP_CONTAINER_NAME}
+    build:
+      context: .
+      dockerfile: ./build/todo_app/Dockerfile
+    volumes:
+      - ./todo_app:/usr/local/go/src/web/todo_app
+      - .env:/usr/local/go/src/web/todo_app/.env
+    tty: true
+    depends_on:
+      - db
+    ports:
+      - ${TODO_APP_PORT}:8080
+
+  # postgresql
+  db:
+    container_name: ${DB_HOST}
+    build:
+      context: .
+      dockerfile: ./build/db/Dockerfile
+    environment:
+      - POSTGRES_DB=${DB_DATABASE}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - db-store:/var/lib/postgresql/data
+      - ./todo_app/database/init:/docker-entrypoint-initdb.d
+    ports:
+      - ${DB_PORT}:5432
+
+volumes:
+  db-store:
